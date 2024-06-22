@@ -114,19 +114,18 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
 
 ### IV. Tested Hardwares
 
-1. WiFi test
+#### 1. WiFi test
    Run "ifconfig -a",you will see wlan0，use iw to test wifi. Please refer to the following diagram for the testing process.
  ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/9399e5b0-f0bd-4e96-956e-7c94a81bb028)
 
       ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/1334a9f8-b763-484d-9cb6-a02ab49b79fc)
 
-2. BT test
-   Run "hciconfig -a",test results are as follows：
-   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/92621963-2019-4867-81fd-6d70dfaf4368)
-3. Ethernet test  
+####  2. BT test
+   Run "hciconfig -a".
+#### 3. Ethernet test  
    eth0, after connecting the network cable,first，use "ifup eth0",then use “ping www.baidu.com" to test network,ping OK.  
    eth1, after connecting the network cable, use “ping www.baidu.com" to test network,ping OK.  
-5. HDMI test
+#### 4. HDMI test
    Firstly，you need to install desktop services，add to build/conf/bblayers.conf.
    ```shell
    DISPLAY_PLATFORM ?= "wayland"
@@ -136,14 +135,14 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
    IMAGE_INSTALL:append = " ${@'weston weston-init weston-examples' if d.getVar('DISPLAY_PLATFORM') == 'wayland' else 'xf86-video-modesetting xserver-xorg-module-exa'}"
    ```
    Then connect the monitor with an HDMI cable, display ok.
-6. USB test
+#### 5. USB test
    Connect a USB drive to any USB port. Please refer to the following diagram for the testing process.
    ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/cd2f7e1c-dc2d-4f94-8265-85d2da9e5207)
-7. OTG test
+#### 6. OTG test
    Connect the USB drive with an OTG cable and then connect it to the TypeC port,use cmd "mount",same with step 5.
-8. SATA test
+#### 7. SATA test
    Use cmd "mount",same with step 5.
-9. DB9 test  
+#### 8. DB9 test  
    (1) The wiring method is shown in the following figure. Connect the other side to the computer.   
    ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/5af714cb-4a3e-41dd-920e-86ae9bf3fd95)  
    (2) Configuration of serial port to be tested  
@@ -154,7 +153,7 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
    (4) Send instructions from the computer to the device.  
    device: cat /dev/ttyS4&  
    ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/057c640c-20fe-43bc-bc44-5696a2e36eb3)  
-10. 4G test  
+#### 9. 4G test  
 (1) The card insertion method is shown in the following figure.  
     ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/3fdb6f45-b96a-4a33-81d1-fef150790f29)  
 (2) Enter the following commands  
