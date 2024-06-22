@@ -55,19 +55,21 @@ For example:
 ```makefile
 # build/conf/bblayers.conf
 BBLAYERS ?= " \
-  ${TOPDIR}/../meta-rockchip \
   ${TOPDIR}/../poky/meta \
   ${TOPDIR}/../poky/meta-poky \
   ${TOPDIR}/../poky/meta-yocto-bsp \
   ${TOPDIR}/../meta-openembedded/meta-oe \
-```
-
+  ${TOPDIR}/../meta-openembedded/meta-multimedia \
+  ${TOPDIR}/../meta-openembedded/meta-python \
+  ${TOPDIR}/../meta-openembedded/meta-networking \
+  ${TOPDIR}/../meta-rockchip \
+Here is an example of our configuration of bblayer.conf: https://github.com/simongiec/build.git
 To enable a particular machine, you need to add a MACHINE line naming the BSP to the local.conf file:
 
 ```makefile
   MACHINE = "xxx"
 ```
-
+This project's MACHINE is “rockchip-rk3568-evb”.
 All supported machines can be found in meta-rockchip/conf/machine.
 
 ### II. Building meta-rockchip BSP Layers
@@ -77,11 +79,19 @@ You should then be able to build a image as such:
 ```shell
 $ bitbake core-image-minimal
 ```
+All services we need can be found in meta-rockchip/conf/machine/rockchip-rk3568-evb.conf:
+![image](https://github.com/simongiec/meta-rockchip/assets/169290270/32441d65-1441-4655-81a2-292aaf96b8e8)
 
 At the end of a successful build, you should have an .wic image in `/path/to/yocto/build/tmp/deploy/images/<MACHINE>/`, also with an rockchip firmware image: `update.img`.
 
 ### III. Booting your Device
+Under Windows,you can use RKDevTool_Release
+Download link: https://drive.google.com/file/d/12XlHy0PA1AME0AE1xXZ9u_Lds6wYOyMk/view?usp=drive_link
+1. Put your device into rockusb mode:Turn off the machine, connect the adapter and use a USB cable to connect to the computer，press and hold the white button next to TypeC, press the power button, and release both buttons,the device will enter loader mode.
+2. Flash the image(update.img),as shown in the following figure,click "Upgrade".
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/7b472c4a-6db7-4f70-93c0-bac38daacc07)
 
+   
 Under Linux, you can use upgrade_tool: <http://opensource.rock-chips.com/wiki_Upgradetool> to flash the image:
 
 1. Put your device into rockusb mode: <http://opensource.rock-chips.com/wiki_Rockusb>
@@ -104,62 +114,65 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
 
 ### IV. Tested Hardwares
 
-The following undergo regular basic testing with their respective MACHINE types.
+1. WiFi test
+   Run "ifconfig -a",you will see wlan0，use iw to test wifi. Please refer to the following diagram for the testing process.
+ ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/9399e5b0-f0bd-4e96-956e-7c94a81bb028)
 
-* px3se evb board
+      ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/1334a9f8-b763-484d-9cb6-a02ab49b79fc)
 
-* rk3308 evb board
+2. BT test
+   Run "hciconfig -a",test results are as follows：
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/92621963-2019-4867-81fd-6d70dfaf4368)
+3. Ethernet test  
+   eth0, after connecting the network cable,first，use "ifup eth0",then use “ping www.baidu.com" to test network,ping OK.  
+   eth1, after connecting the network cable, use “ping www.baidu.com" to test network,ping OK.  
+5. HDMI test
+   Firstly，you need to install desktop services，add to build/conf/bblayers.conf.
+   ```shell
+   DISPLAY_PLATFORM ?= "wayland"
+   DISTRO_FEATURES:append = " ${@d.getVar('DISPLAY_PLATFORM')}"
+   DISTRO_FEATURES:remove = " ${@'x11' if d.getVar('DISPLAY_PLATFORM') == 'wayland' else 'wayland'}"
+   IMAGE_FEATURES:append = " ${@'x11-base' if d.getVar('DISPLAY_PLATFORM') == 'x11' else ''}"
+   IMAGE_INSTALL:append = " ${@'weston weston-init weston-examples' if d.getVar('DISPLAY_PLATFORM') == 'wayland' else 'xf86-video-modesetting xserver-xorg-module-exa'}"
+   ```
+   Then connect the monitor with an HDMI cable, display ok.
+6. USB test
+   Connect a USB drive to any USB port. Please refer to the following diagram for the testing process.
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/cd2f7e1c-dc2d-4f94-8265-85d2da9e5207)
+7. OTG test
+   Connect the USB drive with an OTG cable and then connect it to the TypeC port,use cmd "mount",same with step 5.
+8. SATA test
+   Use cmd "mount",same with step 5.
+9. DB9 test  
+   (1) The wiring method is shown in the following figure. Connect the other side to the computer.  
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/5af714cb-4a3e-41dd-920e-86ae9bf3fd95)
+   (2) Configuration of serial port to be tested  
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/a0fd15a9-ad47-4af7-8cad-f8445924050a)
+   (3) Send instructions from the device to the computer.  
+   device: echo testSerialCharString > /dev/ttyS4  
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/7d060d17-b90e-4601-9d09-21e7e5c04392)
+   (4) Send instructions from the computer to the device.  
+   device: cat /dev/ttyS4&  
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/057c640c-20fe-43bc-bc44-5696a2e36eb3)
+10. 4G test  
+    (1) The card insertion method is shown in the following figure.  
+    ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/3fdb6f45-b96a-4a33-81d1-fef150790f29)
+    (2) Enter the following commands
+    ```shell
+    cat /dev/ttyUSB1 & echo -e "AT+CPIN?\r\n" > /dev/ttyUSB1 
+    echo -en 'AT+CGPADDR\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1 
+    echo -en 'AT+QNETDEVCTL=1,1,1\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1 
+    udhcpc -i usb0
+    ```
+    (3) ping test OK
+   
 
-* rk3326 evb board
 
-* px30 evb board
 
-* rk3328 evb board
+   
 
-* rk3288 evb board
+   
 
-* rk3399 sapphire excavator board
 
-* rk3399pro evb board
 
-### V. Supporting new Machine
 
-To support new machine, you can either add new machine config in meta-rockchip/conf/machine, or choose a similar existing machine and override it's configurations in local config file.
-
-In general, a new machine needs to specify it's u-boot config, kernel config, kernel device tree and wifi/bt firmware:
-
-For example:
-
-```makefile
-KBUILD_DEFCONFIG = "rk3326_linux_defconfig"
-KERNEL_DEVICETREE = "rockchip/rk3326-evb-lp3-v10-linux.dtb"
-UBOOT_MACHINE = "evb-rk3326_defconfig"
-RK_WIFIBT_FIRMWARES = " \
-        rkwifibt-firmware-ap6212a1-wifi \
-        rkwifibt-firmware-ap6212a1-bt \
-        brcm-tools \
-"
-```
-
-If you want to use your own local u-boot and kernel sources, a simple way is to override related configurations in local config file.
-
-For example using the kernel/ and u-boot/ in the same directory of meta-rockchip:
-
-```makefile
-# build/conf/local.conf
-SRC_URI:pn-linux-rockchip = " \
-        git://${TOPDIR}/../kernel;protocol=file;usehead=1 \
-        file://cgroups.cfg \
-"
-SRCREV:pn-linux-rockchip = "${AUTOREV}"
-KBRANCH = "HEAD"
-
-SRC_URI:pn-u-boot = " \
-        git://${TOPDIR}/../u-boot;protocol=file;usehead=1 \
-"
-SRCREV:pn-u-boot = "${AUTOREV}"
-```
-
-## Maintainers
-
-* Jeffy Chen `<jeffy.chen@rock-chips.com>`
