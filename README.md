@@ -63,13 +63,13 @@ BBLAYERS ?= " \
   ${TOPDIR}/../meta-openembedded/meta-python \
   ${TOPDIR}/../meta-openembedded/meta-networking \
   ${TOPDIR}/../meta-rockchip \
-Here is an example of our configuration of bblayer.conf: https://github.com/simongiec/build.git
+```
+Here is an example of our configuration of bblayer.conf: https://github.com/simongiec/build.git  
 To enable a particular machine, you need to add a MACHINE line naming the BSP to the local.conf file:
-
 ```makefile
   MACHINE = "xxx"
 ```
-This project's MACHINE is “rockchip-rk3568-evb”.
+This project's MACHINE is “rockchip-rk3568-evb”.  
 All supported machines can be found in meta-rockchip/conf/machine.
 
 ### II. Building meta-rockchip BSP Layers
@@ -86,9 +86,9 @@ At the end of a successful build, you should have an .wic image in `/path/to/yoc
 
 ### III. Booting your Device
 Under Windows,you can use RKDevTool_Release
-Download link: https://drive.google.com/file/d/12XlHy0PA1AME0AE1xXZ9u_Lds6wYOyMk/view?usp=drive_link
-1. Put your device into rockusb mode:Turn off the machine, connect the adapter and use a USB cable to connect to the computer，press and hold the white button next to TypeC, press the power button, and release both buttons,the device will enter loader mode.
-2. Flash the image(update.img),as shown in the following figure,click "Upgrade".
+Download link: https://drive.google.com/file/d/12XlHy0PA1AME0AE1xXZ9u_Lds6wYOyMk/view?usp=drive_link  
+1. Put your device into rockusb mode:Turn off the machine, connect the adapter and use a USB cable to connect to the computer，press and hold the white button next to TypeC, press the power button, and release both buttons,the device will enter loader mode.  
+2. Flash the image(update.img),as shown in the following figure,click "Upgrade".  
    ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/7b472c4a-6db7-4f70-93c0-bac38daacc07)
 
    
@@ -144,27 +144,27 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
 8. SATA test
    Use cmd "mount",same with step 5.
 9. DB9 test  
-   (1) The wiring method is shown in the following figure. Connect the other side to the computer.  
-   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/5af714cb-4a3e-41dd-920e-86ae9bf3fd95)
+   (1) The wiring method is shown in the following figure. Connect the other side to the computer.   
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/5af714cb-4a3e-41dd-920e-86ae9bf3fd95)  
    (2) Configuration of serial port to be tested  
-   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/a0fd15a9-ad47-4af7-8cad-f8445924050a)
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/a0fd15a9-ad47-4af7-8cad-f8445924050a)  
    (3) Send instructions from the device to the computer.  
    device: echo testSerialCharString > /dev/ttyS4  
-   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/7d060d17-b90e-4601-9d09-21e7e5c04392)
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/7d060d17-b90e-4601-9d09-21e7e5c04392)  
    (4) Send instructions from the computer to the device.  
    device: cat /dev/ttyS4&  
-   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/057c640c-20fe-43bc-bc44-5696a2e36eb3)
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/057c640c-20fe-43bc-bc44-5696a2e36eb3)  
 10. 4G test  
-    (1) The card insertion method is shown in the following figure.  
-    ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/3fdb6f45-b96a-4a33-81d1-fef150790f29)
-    (2) Enter the following commands
+(1) The card insertion method is shown in the following figure.  
+    ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/3fdb6f45-b96a-4a33-81d1-fef150790f29)  
+(2) Enter the following commands  
     ```shell
     cat /dev/ttyUSB1 & echo -e "AT+CPIN?\r\n" > /dev/ttyUSB1 
     echo -en 'AT+CGPADDR\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1 
     echo -en 'AT+QNETDEVCTL=1,1,1\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1 
     udhcpc -i usb0
     ```
-    (3) ping test OK
+(3) ping test OK
    
 
 
