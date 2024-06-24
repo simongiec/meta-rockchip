@@ -121,7 +121,9 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
       ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/1334a9f8-b763-484d-9cb6-a02ab49b79fc)
 
 ####  2. BT test
-   Run "hciconfig -a".
+   Run "hciconfig -a".  
+   ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/8d3879c5-1727-41fe-a0db-fe5bc233c99c)
+
 #### 3. Ethernet test  
    eth0, after connecting the network cable,first，use "ifup eth0",then use “ping www.baidu.com" to test network,ping OK.  
    eth1, after connecting the network cable, use “ping www.baidu.com" to test network,ping OK.  
