@@ -167,6 +167,30 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
     ```
 (3) ping test OK
    
+#### 10. GPU test  
+(1) Add glmark2 in bblayers.conf
+  ```shell
+  # For glmark2  
+  DISTRO_FEATURES:append = " opengl"  
+  IMAGE_INSTALL:append = " glmark2"  
+  PACKAGECONFIG:pn-glmark2 = \  
+	  "${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11-gles2', '', d)} \  
+	  ${@bb.utils.contains('DISTRO_FEATURES', 'wayland opengl', 'wayland-gles2', '', d)} \  
+	  drm-gles2"
+  ```
+(2) Test GPU
+Run the following comman to test GPU in terminal or adb 
+ ```shell
+XDG_RUNTIME_DIR=/run/user/1000 glmark2-es2-wayland  
+```
+Test result is shown in the following figure.   
+![image](https://github.com/simongiec/meta-rockchip/assets/169290270/3d7cd93e-a045-41b8-b67e-df7d1a5f68b4)  
+
+(3) View GPU occupancy rate 
+```shell
+ cat /sys/class/devfreq/fde60000.gpu/load
+```
+
 
 
 
