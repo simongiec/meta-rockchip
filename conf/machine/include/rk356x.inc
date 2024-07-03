@@ -10,6 +10,6 @@ LINUXLIBCVERSION := "5.10-custom%"
 
 
 MALI_GPU := "bifrost-g52"
-MALI_VERSION := "g2p0"
+MALI_VERSION := "g13p0"
 
 RK_ISP_VERSION := "2.1"
