@@ -159,13 +159,13 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
 (1) The card insertion method is shown in the following figure.  
     ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/3fdb6f45-b96a-4a33-81d1-fef150790f29)  
 (2) Enter the following commands  
-    ```shell
-    cat /dev/ttyUSB1 & echo -e "AT+CPIN?\r\n" > /dev/ttyUSB1 
-    echo -en 'AT+CGPADDR\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1 
-    echo -en 'AT+QNETDEVCTL=1,1,1\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1 
-    udhcpc -i usb0
-    ```
-(3) ping test OK
+  ```shell
+    cat /dev/ttyUSB1 & echo -e "AT+CPIN?\r\n" > /dev/ttyUSB1   
+    echo -en 'AT+CGPADDR\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1   
+    echo -en 'AT+QNETDEVCTL=1,1,1\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1   
+    udhcpc -i usb0  
+  ```
+(3) ping test OK  
    
 #### 10. GPU test  
 (1) Add glmark2 in bblayers.conf
