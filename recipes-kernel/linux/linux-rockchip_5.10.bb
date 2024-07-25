@@ -6,7 +6,7 @@ require linux-rockchip.inc
 
 inherit local-git
 
-SRCREV = "9b289ff51ea1ea3d6f538d4cf549460a88b14326"
+SRCREV = "35c1dfd67a93e7bdc15b9a8b908f35e2b21907af"
 SRC_URI = " \
 	git://github.com/simongiec/kernel.git;protocol=https;nobranch=1;branch=main; \
 	file://${THISDIR}/files/cgroups.cfg \
