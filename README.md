@@ -125,8 +125,8 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
    ![image](https://github.com/simongiec/meta-rockchip/assets/169290270/8d3879c5-1727-41fe-a0db-fe5bc233c99c)
 
 #### 3. Ethernet test  
-   eth0, after connecting the network cable,first，use "ifup eth0",then use “ping www.baidu.com" to test network,ping OK.  
-   eth1, after connecting the network cable, use “ping www.baidu.com" to test network,ping OK.  
+   eth0, after connecting the network cable,first,use "ifup eth0",then use “ping www.baidu.com" to test network,ping OK. Finally run "ifdown eth0".  
+   eth1, after connecting the network cable,,use "ifup eth1",then use “ping www.baidu.com" to test network,ping OK. Finally run "ifdown eth1".  
 #### 4. HDMI test
    Firstly，you need to install desktop services，add to build/conf/bblayers.conf.
    ```shell
@@ -165,6 +165,13 @@ $ sudo upgrade_tool uf <IMAGE PATH>/update.img # For rockchip firmware image
     echo -en 'AT+QNETDEVCTL=1,1,1\r\n' > /dev/ttyUSB1 && cat /dev/ttyUSB1   
     udhcpc -i usb0  
   ```
+![image](https://github.com/user-attachments/assets/e8b6281f-d2bd-4a76-9eb4-b2165bd056ba) 
+![image](https://github.com/user-attachments/assets/05c3f2d7-6b38-406f-8a8f-8c15b778ed16) 
+![image](https://github.com/user-attachments/assets/57460367-28ce-4d45-aaae-9eeca0b30999) 
+![image](https://github.com/user-attachments/assets/d0fa60d0-ff5a-4d9a-baba-ef64c004b518) 
+
+
+
 (3) ping test OK  
    
 #### 10. GPU test  
